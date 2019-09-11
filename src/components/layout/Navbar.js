@@ -21,5 +21,4 @@ import PropTypes from 'prop-types';
     icon : PropTypes.string.isRequired
   }
 
-
 export default Navbar;
