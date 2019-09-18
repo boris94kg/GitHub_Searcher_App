@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
 import Spinner from '../layout/Spinner';
+import Repos from '../repos/Repos';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class SingleUser extends Component {
   componentDidMount() {
     this.props.getSingleUser(this.props.match.params.login);
+    this.props.getUserRepos(this.props.match.params.login);
   }
 
   static propTypes = {
     loading: PropTypes.bool,
     user: PropTypes.object.isRequired,
-    getSingleUser: PropTypes.func.isRequired
+    repos: PropTypes.array.isRequired,
+    getSingleUser: PropTypes.func.isRequired,
+    getUserRepos: PropTypes.func.isRequired
   }
 
 
   render() {
     const { name, avatar_url, location, bio, blog, login, html_url, company, followers, following, public_repos, public_gists, hireable } = this.props.user;
-    const { loading } = this.props;
+    const { loading, repos } = this.props;
 
     if (loading) {
       return <Spinner />
@@ -68,6 +72,7 @@ class SingleUser extends Component {
           <div className="badge badge-success">Public Repos: {public_repos}</div>
           <div className="badge badge-light">Public Gists: {public_gists}</div>
         </div>
+        <Repos repos={repos}/>
       </>
     )
   }
