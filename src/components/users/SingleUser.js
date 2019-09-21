@@ -1,15 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Spinner from '../layout/Spinner';
 import Repos from '../repos/Repos';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import githubContext from '../../context/github/githubContext';
 
-const SingleUser = ({ user, loading, getSingleUser, getUserRepos, match, repos }) => {
+const SingleUser = ({ match }) => {
+
+  const GithubContext = useContext(githubContext);
+  const { user, loading, getSingleUser, getUserRepos, repos } = GithubContext;
+
   useEffect(() => {
     getSingleUser(match.params.login);
     getUserRepos(match.params.login);
     // eslint-disable-next-line
   }, [])
+
+
 
   const { name,
     avatar_url,
@@ -76,14 +82,6 @@ const SingleUser = ({ user, loading, getSingleUser, getUserRepos, match, repos }
       <Repos repos={repos} />
     </>
   )
-}
-
-SingleUser.propTypes = {
-  loading: PropTypes.bool,
-  user: PropTypes.object.isRequired,
-  repos: PropTypes.array.isRequired,
-  getSingleUser: PropTypes.func.isRequired,
-  getUserRepos: PropTypes.func.isRequired
 }
 
 export default SingleUser;
